@@ -12,5 +12,5 @@ public interface AddressRepo extends JpaRepository<Address, Long>{
 
 	public Optional<List<Address>> findAllByArea(String area);
 
-	public Optional<List<Address>> findAllByPincode(int pincode);
+	public Iterable<Address> findAllByPincode(int pincode);
 }

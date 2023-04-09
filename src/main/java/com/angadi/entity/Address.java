@@ -1,6 +1,7 @@
 package com.angadi.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,7 +19,7 @@ public class Address {
 	private String state;
 	private int pincode;
 	
-	@OneToOne(mappedBy = "address")
+	@OneToOne(mappedBy = "address", fetch = FetchType.LAZY)
 	private  Shop shop;
 	
 	public long getAddressId() {

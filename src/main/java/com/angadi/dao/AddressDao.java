@@ -33,16 +33,16 @@ public class AddressDao {
 	
 	// returns a list of registered area names where shops are available.
 	public List<String> getAllAreaByPincode(int pincode){
-		Optional<List<Address>> optional = addressRepo.findAllByPincode(pincode);
-		if (optional.isEmpty()) {
-			return null;
-		} else {
+		List<Address> addresses = (List<Address>) addressRepo.findAllByPincode(pincode);
+		
+		
 			List<String> areas = new ArrayList<>();
-			 for(Address address : optional.get()) {
-				 areas.add(address.getArea());
+			 for(Address address : addresses) {
+				 String area = address.getArea();
+				 areas.add(area);
 			 }
 			 return areas;
-		}
+		
 	}
 	
 	// returns a list of shops present in a particular area.
