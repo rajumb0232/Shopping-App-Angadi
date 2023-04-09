@@ -2,6 +2,7 @@ package com.angadi.entity;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,7 +19,7 @@ public class Merchant {
 	private String merchantEmail;
 	private String merchantPassword;
 	
-	@OneToMany(mappedBy = "merchant")
+	@OneToMany(mappedBy = "merchant", cascade = CascadeType.ALL)
 	private List<Shop> shops;
 
 	public long getMerchantId() {

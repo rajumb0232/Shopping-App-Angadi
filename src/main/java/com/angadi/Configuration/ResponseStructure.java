@@ -1,6 +1,6 @@
 package com.angadi.Configuration;
 
-public class ResponceStructure<T> {
+public class ResponseStructure<T> {
 	
 	private int status;
 	private String message;
