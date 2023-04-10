@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.angadi.Configuration.ResponseStructure;
+import com.angadi.dto.ShopDto;
 import com.angadi.entity.Address;
 import com.angadi.entity.Shop;
 import com.angadi.service.AddressService;
@@ -42,7 +43,7 @@ public class AddressController {
 	}
 	
 	@GetMapping("/areas/shops")
-	public ResponseEntity<ResponseStructure<List<Shop>>> getAllShopByArea(@RequestParam String area){
+	public ResponseEntity<ResponseStructure<List<ShopDto>>> getAllShopByArea(@RequestParam String area){
 		return service.getAllShopByArea(area);
 	}
 	

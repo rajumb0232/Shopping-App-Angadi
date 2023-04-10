@@ -7,6 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 public class Address {
 	@Id
@@ -19,7 +21,8 @@ public class Address {
 	private String state;
 	private int pincode;
 	
-	@OneToOne(mappedBy = "address", fetch = FetchType.LAZY)
+	@OneToOne(mappedBy = "address")
+	@JsonBackReference
 	private  Shop shop;
 	
 	public long getAddressId() {

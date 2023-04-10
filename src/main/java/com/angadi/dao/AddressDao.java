@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.angadi.dto.ShopDto;
 import com.angadi.entity.Address;
 import com.angadi.entity.Shop;
 import com.angadi.repository.AddressRepo;
@@ -16,6 +17,8 @@ public class AddressDao {
 
 	@Autowired
 	private AddressRepo addressRepo;
+	@Autowired
+	private ShopDto dto;
 
 	public Address saveAddress(Address address) {
 		return addressRepo.save(address);
@@ -46,15 +49,20 @@ public class AddressDao {
 	}
 	
 	// returns a list of shops present in a particular area.
-	public List<Shop> getAllShopByArea(String area){
+	public List<ShopDto> getAllShopByArea(String area){
 		Optional<List<Address>> optional = addressRepo.findAllByArea(area);
 		
 		if(optional.isEmpty()) {
 			return null;
 		}else {
-			List<Shop> shops = new ArrayList<>();
+			List<ShopDto> shops = new ArrayList<>();
 			for(Address address : optional.get()) {
-				shops.add(address.getShop());
+				Shop shop = address.getShop();
+				dto.setShopId(shop.getShopId());
+				dto.setShopName(shop.getShopName());
+				dto.setPrimeCategory(shop.getPrimeCategory());
+				dto.setShopDescription(shop.getShopDescription());
+				shops.add(dto);
 			}
 			return shops;
 		}

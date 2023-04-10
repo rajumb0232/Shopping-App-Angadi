@@ -1,6 +1,7 @@
 package com.angadi.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -8,6 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import com.angadi.enums.PrimeCategory;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 public class Product {
@@ -20,8 +22,9 @@ public class Product {
 	private double productPrice;
 	private PrimeCategory primecategory;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn
+	@JsonBackReference
 	private Shop shop;
 	
 	public long getProductId() {

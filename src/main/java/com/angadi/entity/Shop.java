@@ -2,7 +2,9 @@ package com.angadi.entity;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,6 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.angadi.enums.PrimeCategory;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Shop {
@@ -24,11 +27,13 @@ public class Shop {
 	private String shopDescription;
 	private PrimeCategory primeCategory;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn
+	@JsonManagedReference
 	private Address address;
 	
-	@OneToMany(mappedBy = "shop")
+	@OneToMany(mappedBy = "shop",fetch = FetchType.EAGER)
+	@JsonManagedReference
 	private List<Product> products;
 	
 	@ManyToOne

@@ -23,7 +23,6 @@ public class AngadiExceptionHandler extends ResponseEntityExceptionHandler{
 		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.NOT_FOUND);
 	}
 	
-	
 	@ExceptionHandler
 	public ResponseEntity<ResponseStructure<String>> areasNotfoundWithGivenPincode(AreasNotfoundWithGivenPincodeException ex){
 		ResponseStructure<String> structure = new ResponseStructure<>();
@@ -55,4 +54,16 @@ public class AngadiExceptionHandler extends ResponseEntityExceptionHandler{
 		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.NOT_FOUND);
 	}
 	
+	
+	// ******************* for entity Shop ***********************
+	
+	
+	@ExceptionHandler
+	public ResponseEntity<ResponseStructure<String>> ShopNotFoundWithId(ShopNotFoundWithIdException ex){
+		ResponseStructure<String> structure = new ResponseStructure<>();
+		structure.setStatus(HttpStatus.NOT_FOUND.value());
+		structure.setMessage(ex.getMessage());
+		structure.setData("Shop not present with the requested Id!");
+		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.NOT_FOUND);
+	}
 }

@@ -25,8 +25,8 @@ public class MerchantService {
 		Merchant merchant2 = dao.saveMerchant(merchant);
 		structure.setStatus(HttpStatus.CREATED.value());
 		structure.setMessage("Merchant successfully added.");
-		dto.setMerchantId(merchant.getMerchantId());
-		dto.setMerchantName(merchant.getMerchantName());
+		dto.setMerchantId(merchant2.getMerchantId());
+		dto.setMerchantName(merchant2.getMerchantName());
 		structure.setData(dto);
 		return new ResponseEntity<ResponseStructure<MerchantDto>>(structure, HttpStatus.CREATED);
 	}

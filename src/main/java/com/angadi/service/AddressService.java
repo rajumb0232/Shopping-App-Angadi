@@ -12,14 +12,15 @@ import com.angadi.Exception.AddressNotFoundByIdException;
 import com.angadi.Exception.AreasNotfoundWithGivenPincodeException;
 import com.angadi.Exception.ShopsNotFoundInRequestedAreaException;
 import com.angadi.dao.AddressDao;
+import com.angadi.dto.ShopDto;
 import com.angadi.entity.Address;
-import com.angadi.entity.Shop;
 
 @Service
 public class AddressService {
 
 	@Autowired
 	private AddressDao addressDao;
+
 
 	public ResponseEntity<ResponseStructure<Address>> saveAddress(Address address) {
 		ResponseStructure<Address> structure = new ResponseStructure<>();
@@ -61,9 +62,9 @@ public class AddressService {
 		}
 	}
 
-	public ResponseEntity<ResponseStructure<List<Shop>>> getAllShopByArea(String area) {
-		ResponseStructure<List<Shop>> structure = new ResponseStructure<>();
-		List<Shop> shops = addressDao.getAllShopByArea(area);
+	public ResponseEntity<ResponseStructure<List<ShopDto>>> getAllShopByArea(String area) {
+		ResponseStructure<List<ShopDto>> structure = new ResponseStructure<>();
+		List<ShopDto> shops = addressDao.getAllShopByArea(area);
 		
 		if(shops.isEmpty()) {
 			throw new ShopsNotFoundInRequestedAreaException("Failed to find Shops!");
@@ -71,7 +72,7 @@ public class AddressService {
 			structure.setStatus(HttpStatus.FOUND.value());
 			structure.setMessage("All available shops found!");
 			structure.setData(shops);
-			return new ResponseEntity<ResponseStructure<List<Shop>>> (structure, HttpStatus.FOUND);
+			return new ResponseEntity<ResponseStructure<List<ShopDto>>> (structure, HttpStatus.FOUND);
 		}
 	}
 
