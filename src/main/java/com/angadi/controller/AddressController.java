@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.angadi.Configuration.ResponseStructure;
 import com.angadi.dto.ShopDto;
 import com.angadi.entity.Address;
-import com.angadi.entity.Shop;
 import com.angadi.service.AddressService;
 
 @RestController

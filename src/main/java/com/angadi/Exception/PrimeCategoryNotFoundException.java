@@ -1,15 +1,16 @@
 package com.angadi.Exception;
 
 @SuppressWarnings("serial")
-public class AreasNotfoundWithGivenPincodeException extends RuntimeException {
+public class PrimeCategoryNotFoundException extends RuntimeException {
 	private String message;
 
-	public AreasNotfoundWithGivenPincodeException(String message) {
+	public PrimeCategoryNotFoundException(String message) {
 		this.message = message;
 	}
 
 	public String getMessage() {
 		return message;
 	}
+
 	
 }

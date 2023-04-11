@@ -1,5 +1,6 @@
 package com.angadi.Exception;
 
+@SuppressWarnings("serial")
 public class MerchantNotFoundByIdException extends RuntimeException {
 	private String message;
 

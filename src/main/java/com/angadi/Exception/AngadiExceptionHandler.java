@@ -66,4 +66,43 @@ public class AngadiExceptionHandler extends ResponseEntityExceptionHandler{
 		structure.setData("Shop not present with the requested Id!");
 		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.NOT_FOUND);
 	}
+	
+	
+	// ****************** for entity Category *********************
+	
+	@ExceptionHandler
+	public ResponseEntity<ResponseStructure<String>> CategoryNotFoundById(CategoryNotFoundByIdException ex){
+		ResponseStructure<String> structure = new ResponseStructure<>();
+		structure.setStatus(HttpStatus.NOT_FOUND.value());
+		structure.setMessage(ex.getMessage());
+		structure.setData("Category not presnet with the requested Id!");
+		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.NOT_FOUND);
+	}
+	
+	@ExceptionHandler
+	public ResponseEntity<ResponseStructure<String>> PrimeCategoryNotFound(PrimeCategoryNotFoundException ex){
+		ResponseStructure<String> structure = new ResponseStructure<>();
+		structure.setStatus(HttpStatus.NOT_FOUND.value());
+		structure.setMessage(ex.getMessage());
+		structure.setData("No Categories found in requested PrimeCategory!");
+		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.NOT_FOUND);
+	}
+	
+	@ExceptionHandler
+	public ResponseEntity<ResponseStructure<String>> NoProductsInCategory(NoProductsInCategoryException ex){
+		ResponseStructure<String> structure = new ResponseStructure<>();
+		structure.setStatus(HttpStatus.NOT_FOUND.value());
+		structure.setMessage(ex.getMessage());
+		structure.setData("No products present in the requested category!");
+		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.NOT_FOUND);
+	}
+	
+	@ExceptionHandler
+	public ResponseEntity<ResponseStructure<String>> ProductAlsoBelongToShop(ProductAlsoBelongToShopException ex){
+		ResponseStructure<String> structure = new ResponseStructure<>();
+		structure.setStatus(HttpStatus.BAD_REQUEST.value());
+		structure.setMessage(ex.getMessage());
+		structure.setData("Cannot delete the produts when associated with the shop!");
+		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.BAD_REQUEST);
+	}
 }

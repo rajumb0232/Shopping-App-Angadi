@@ -1,5 +1,6 @@
 package com.angadi.Exception;
 
+@SuppressWarnings("serial")
 public class AddressNotFoundByIdException extends RuntimeException {
 	
 	private String message;
