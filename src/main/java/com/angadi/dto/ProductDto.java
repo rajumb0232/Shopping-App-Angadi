@@ -1,32 +1,15 @@
-package com.angadi.entity;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+package com.angadi.dto;
 
 import com.angadi.enums.PrimeCategory;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
-@Entity
-public class Product {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+public class ProductDto {
 	private long productId;
 	private String productName;
 	private String productDescription;
 	private int stockQuantity;
 	private double productPrice;
 	private PrimeCategory primecategory;
-	
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn
-	@JsonBackReference
-	private Shop shop;
+	private int shopId;
 	
 	public long getProductId() {
 		return productId;
@@ -64,13 +47,12 @@ public class Product {
 	public void setPrimecategory(PrimeCategory primecategory) {
 		this.primecategory = primecategory;
 	}
-	public Shop getShop() {
-		return shop;
+	public int getShopId() {
+		return shopId;
 	}
-	public void setShop(Shop shop) {
-		this.shop = shop;
+	public void setShopId(int shopId) {
+		this.shopId = shopId;
 	}
-	
 	
 	
 }

@@ -105,4 +105,17 @@ public class AngadiExceptionHandler extends ResponseEntityExceptionHandler{
 		structure.setData("Cannot delete the produts when associated with the shop!");
 		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.BAD_REQUEST);
 	}
+	
+	
+	// ****************** for entity Product *********************
+	
+	
+	@ExceptionHandler
+	public ResponseEntity<ResponseStructure<String>> ProductNotFoundById(ProductNotFoundByIdException ex){
+		ResponseStructure<String> structure = new ResponseStructure<>();
+		structure.setStatus(HttpStatus.NOT_FOUND.value());
+		structure.setMessage(ex.getMessage());
+		structure.setData("Product not present with the requested Id!");
+		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.NOT_FOUND);
+	}
 }
