@@ -23,8 +23,8 @@ public class ShopController {
 	private shopService service;
 	
 	@PostMapping
-	public ResponseEntity<ResponseStructure<Shop>> addShop(@RequestBody Shop shop){
-		return service.addShop(shop);
+	public ResponseEntity<ResponseStructure<Shop>> addShop(@RequestBody Shop shop, @RequestParam long merchantId){
+		return service.addShop(shop, merchantId);
 	}
 	
 	@GetMapping

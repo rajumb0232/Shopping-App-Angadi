@@ -9,7 +9,7 @@ public class ProductDto {
 	private int stockQuantity;
 	private double productPrice;
 	private PrimeCategory primecategory;
-	private int shopId;
+
 	
 	public long getProductId() {
 		return productId;
@@ -47,12 +47,6 @@ public class ProductDto {
 	public void setPrimecategory(PrimeCategory primecategory) {
 		this.primecategory = primecategory;
 	}
-	public int getShopId() {
-		return shopId;
-	}
-	public void setShopId(int shopId) {
-		this.shopId = shopId;
-	}
-	
+
 	
 }

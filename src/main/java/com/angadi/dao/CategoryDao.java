@@ -25,6 +25,15 @@ public class CategoryDao {
 		return repo.save(category);
 	}
 	
+	public Category getCategoryById(int id) {
+		Optional<Category> optional = repo.findById(id);
+		if(optional.isEmpty()) {
+			return null;
+		}else {
+			return optional.get();
+		}
+	}
+	
 	// to get all the products present in a particular Category
 	public List<Product> getCategoryProducts(int id) {
 		Optional<Category> optional = repo.findById(id);

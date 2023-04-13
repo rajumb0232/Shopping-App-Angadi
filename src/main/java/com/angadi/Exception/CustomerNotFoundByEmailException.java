@@ -1,10 +1,10 @@
 package com.angadi.Exception;
 
 @SuppressWarnings("serial")
-public class ProductNotFoundByIdException extends RuntimeException {
+public class CustomerNotFoundByEmailException extends RuntimeException {
 	private String message;
 
-	public ProductNotFoundByIdException(String message) {
+	public CustomerNotFoundByEmailException(String message) {
 		this.message = message;
 	}
 

@@ -17,8 +17,7 @@ public class AddressDao {
 
 	@Autowired
 	private AddressRepo addressRepo;
-	@Autowired
-	private ShopDto dto;
+
 
 	public Address saveAddress(Address address) {
 		return addressRepo.save(address);
@@ -58,6 +57,7 @@ public class AddressDao {
 			List<ShopDto> shops = new ArrayList<>();
 			for(Address address : optional.get()) {
 				Shop shop = address.getShop();
+				ShopDto dto = new ShopDto();
 				dto.setShopId(shop.getShopId());
 				dto.setShopName(shop.getShopName());
 				dto.setPrimeCategory(shop.getPrimeCategory());

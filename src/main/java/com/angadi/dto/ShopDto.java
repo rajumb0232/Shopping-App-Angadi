@@ -9,6 +9,7 @@ public class ShopDto {
 	private String shopName;
 	private String shopDescription;
 	private PrimeCategory primeCategory;
+	
 	public int getShopId() {
 		return shopId;
 	}

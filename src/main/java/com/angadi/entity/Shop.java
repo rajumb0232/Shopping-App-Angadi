@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.angadi.enums.PrimeCategory;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -36,8 +37,9 @@ public class Shop {
 	@JsonManagedReference
 	private List<Product> products;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn
+	@JsonBackReference
 	private Merchant merchant;
 
 	public int getShopId() {

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,7 +38,7 @@ public class AddressController {
 	}
 	
 	@GetMapping("/areas")
-	public ResponseEntity<ResponseStructure<List<String>>> getAllAreaByPincode(@RequestParam int pincode){
+	public ResponseEntity<ResponseStructure<List<String>>> getAllAreaByPincode(@Validated @RequestParam int pincode){
 		return service.getAllAreaByPincode(pincode);
 	}
 	

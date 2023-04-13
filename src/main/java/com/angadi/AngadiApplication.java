@@ -8,6 +8,7 @@ public class AngadiApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(AngadiApplication.class, args);
+		
 	}
 
 }

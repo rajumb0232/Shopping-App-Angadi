@@ -18,7 +18,7 @@ public class Cart {
 	private int cartId;
 	private double cartPrice;
 	
-	@OneToMany(mappedBy = "cart")
+	@OneToMany
 	private List<SelectedProduct> selectedProducts;
 	
 	@OneToOne(mappedBy = "cart")

@@ -2,6 +2,7 @@ package com.angadi.entity;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,14 +22,14 @@ public class Customer {
 	private String customerEmail;
 	private String customerPassword;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	private Address address;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn
 	private Cart cart;
 	
-	@OneToMany(mappedBy = "customer")
+	@OneToMany(mappedBy = "customer",cascade = CascadeType.ALL)
 	List<CustomerOrder> orders;
 
 	public long getCustomerId() {
@@ -85,6 +86,14 @@ public class Customer {
 
 	public void setOrders(List<CustomerOrder> orders) {
 		this.orders = orders;
+	}
+
+	public Cart getCart() {
+		return cart;
+	}
+
+	public void setCart(Cart cart) {
+		this.cart = cart;
 	}
 	
 	

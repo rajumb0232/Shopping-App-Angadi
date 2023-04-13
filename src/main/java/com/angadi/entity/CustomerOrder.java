@@ -9,10 +9,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import com.angadi.enums.OrderStatus;
 
 @Entity
+@Table(name = "customerorders")
 public class CustomerOrder {
 	
 	@Id
@@ -21,7 +23,7 @@ public class CustomerOrder {
 	private OrderStatus orderStatus;
 	private double tatalPrice;
 	
-	@OneToMany(mappedBy = "customerOrder")
+	@OneToMany
 	private List<SelectedProduct> selectedProducts;
 	
 	@ManyToOne

@@ -2,10 +2,10 @@ package com.angadi.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "selectedproducts")
 public class SelectedProduct {
 
 	@Id
@@ -13,15 +13,8 @@ public class SelectedProduct {
 	private String productName;
 	private String productDescription;
 	private int productQuantity;
-
-	@ManyToOne
-	@JoinColumn
-	private Cart cart;
-
-	@ManyToOne
-	@JoinColumn
-	private CustomerOrder customerOrder;
-
+	private double productPrice;
+	
 	public long getProductId() {
 		return productId;
 	}
@@ -54,20 +47,12 @@ public class SelectedProduct {
 		this.productQuantity = productQuantity;
 	}
 
-	public Cart getCart() {
-		return cart;
+	public double getProductPrice() {
+		return productPrice;
 	}
 
-	public void setCart(Cart cart) {
-		this.cart = cart;
+	public void setProductPrice(double productPrice) {
+		this.productPrice = productPrice;
 	}
-
-	public CustomerOrder getCustomerOrder() {
-		return customerOrder;
-	}
-
-	public void setCustomerOrder(CustomerOrder customerOrder) {
-		this.customerOrder = customerOrder;
-	}
-
+	
 }

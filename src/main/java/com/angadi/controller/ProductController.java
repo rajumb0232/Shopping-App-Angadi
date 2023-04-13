@@ -24,8 +24,8 @@ public class ProductController {
 	private ProductService service;
 	
 	@PostMapping
-	public ResponseEntity<ResponseStructure<Product>> addProduct(@RequestBody ProductDto productDto){
-		return service.addProduct(productDto);
+	public ResponseEntity<ResponseStructure<Product>> addProduct(@RequestBody ProductDto productDto, @RequestParam int shopId, @RequestParam int categoryId){
+		return service.addProduct(productDto, shopId, categoryId);
 	}
 	
 	@GetMapping("/byId")

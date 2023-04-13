@@ -33,7 +33,6 @@ public class ShopDao {
 			return null;
 		}else {
 			shop.setShopId(id);
-			shop.setAddress(optional.get().getAddress());
 			return repo.save(shop);
 		}
 	}
