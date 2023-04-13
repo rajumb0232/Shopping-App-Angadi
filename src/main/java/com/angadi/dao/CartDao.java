@@ -15,4 +15,8 @@ public class CartDao {
 	public Cart addCart(Cart cart) {
 		return repo.save(cart);
 	}
+
+	public void updateCart(Cart cart) {
+		
+	}
 }

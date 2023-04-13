@@ -131,4 +131,17 @@ public class AngadiExceptionHandler extends ResponseEntityExceptionHandler{
 		structure.setData("Customer not present with the requested Id!");
 		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.NOT_FOUND);
 	}
+	
+	
+	// ****************** for entity SelectedProduct ******************
+	
+	
+	@ExceptionHandler
+	public ResponseEntity<ResponseStructure<String>> SelectedProductNotFoundById(SelectedProductNotFoundByIdException ex){
+		ResponseStructure<String> structure = new ResponseStructure<>();
+		structure.setStatus(HttpStatus.NOT_FOUND.value());
+		structure.setMessage(ex.getMessage());
+		structure.setData("SelectedProduct not present with the requested Id!");
+		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.NOT_FOUND);
+	}
 }

@@ -16,7 +16,6 @@ public class Cart {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int cartId;
-	private double cartPrice;
 	
 	@OneToMany
 	private List<SelectedProduct> selectedProducts;
@@ -30,14 +29,6 @@ public class Cart {
 
 	public void setCartId(int cartId) {
 		this.cartId = cartId;
-	}
-
-	public double getCartPrice() {
-		return cartPrice;
-	}
-
-	public void setCartPrice(double cartPrice) {
-		this.cartPrice = cartPrice;
 	}
 
 	public List<SelectedProduct> getSelectedProducts() {
