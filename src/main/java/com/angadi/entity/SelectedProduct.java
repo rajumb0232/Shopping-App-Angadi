@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -13,11 +14,10 @@ public class SelectedProduct {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long productId;
-	private String productName;
-	private String productDescription;
+	private double totalPrice;
 	private int productQuantity;
-	private double productPrice;
-	private double totalProductPrice;
+	@OneToOne
+	private Product product;
 	
 	public long getProductId() {
 		return productId;
@@ -27,20 +27,20 @@ public class SelectedProduct {
 		this.productId = productId;
 	}
 
-	public String getProductName() {
-		return productName;
+	public double getTotalPrice() {
+		return totalPrice;
 	}
 
-	public void setProductName(String productName) {
-		this.productName = productName;
+	public void setTotalPrice(double totalPrice) {
+		this.totalPrice = totalPrice;
 	}
 
-	public String getProductDescription() {
-		return productDescription;
+	public Product getProduct() {
+		return product;
 	}
 
-	public void setProductDescription(String productDescription) {
-		this.productDescription = productDescription;
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 
 	public int getProductQuantity() {
@@ -51,20 +51,6 @@ public class SelectedProduct {
 		this.productQuantity = productQuantity;
 	}
 
-	public double getProductPrice() {
-		return productPrice;
-	}
-
-	public void setProductPrice(double productPrice) {
-		this.productPrice = productPrice;
-	}
-
-	public double getTotalProductPrice() {
-		return totalProductPrice;
-	}
-
-	public void setTotalProductPrice(double totalProductPrice) {
-		this.totalProductPrice = totalProductPrice;
-	}
+	
 	
 }

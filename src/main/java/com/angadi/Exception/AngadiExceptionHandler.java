@@ -41,6 +41,16 @@ public class AngadiExceptionHandler extends ResponseEntityExceptionHandler{
 		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.NOT_FOUND);
 	}
 	
+	/**
+	 * raised when the customer tries to place order without giving an address.*/
+	@ExceptionHandler
+	public ResponseEntity<ResponseStructure<String>> AddressNotFoundWithCustomer(AddressNotFoundWithCustomerException ex){
+		ResponseStructure<String> structure = new ResponseStructure<>();
+		structure.setStatus(HttpStatus.NOT_FOUND.value());
+		structure.setMessage(ex.getMessage());
+		structure.setData("Customer Doesn't contain Address to place Order!");
+		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.NOT_FOUND);
+	}
 	
 	// ******************* for entity merchant *********************
 	
@@ -142,6 +152,41 @@ public class AngadiExceptionHandler extends ResponseEntityExceptionHandler{
 		structure.setStatus(HttpStatus.NOT_FOUND.value());
 		structure.setMessage(ex.getMessage());
 		structure.setData("SelectedProduct not present with the requested Id!");
+		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.NOT_FOUND);
+	}
+	
+	
+	// ******************* for entity Cart ***********************
+	
+
+	@ExceptionHandler
+	public ResponseEntity<ResponseStructure<String>> CartisEmpty(CartisEmptyException ex){
+		ResponseStructure<String> structure = new ResponseStructure<>();
+		structure.setStatus(HttpStatus.NOT_FOUND.value());
+		structure.setMessage(ex.getMessage());
+		structure.setData("No Products found In the Cart to place order!");
+		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.NOT_FOUND);
+	}
+	
+	
+	// ****************** for entity CustomerOrder *******************
+	
+
+	@ExceptionHandler
+	public ResponseEntity<ResponseStructure<String>> OrdersNotFoundByStatus(OrdersNotFoundByStatusException ex){
+		ResponseStructure<String> structure = new ResponseStructure<>();
+		structure.setStatus(HttpStatus.NOT_FOUND.value());
+		structure.setMessage(ex.getMessage());
+		structure.setData("Requested Customer doesn't has any orders in the requested Order Status!");
+		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.NOT_FOUND);
+	}
+	
+	@ExceptionHandler
+	public ResponseEntity<ResponseStructure<String>> OrdersNotFoundByStatusByCustomer(OrdersNotFoundByStatusByCustomerException ex){
+		ResponseStructure<String> structure = new ResponseStructure<>();
+		structure.setStatus(HttpStatus.NOT_FOUND.value());
+		structure.setMessage(ex.getMessage());
+		structure.setData("No orders present in the requested order Status!");
 		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.NOT_FOUND);
 	}
 }

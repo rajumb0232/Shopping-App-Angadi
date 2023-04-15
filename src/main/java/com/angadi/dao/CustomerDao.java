@@ -1,5 +1,6 @@
 package com.angadi.dao;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.angadi.entity.Address;
 import com.angadi.entity.Customer;
+import com.angadi.entity.CustomerOrder;
 import com.angadi.repository.CustomerRepo;
 
 @Repository
@@ -37,7 +39,12 @@ public class CustomerDao {
 			customer.setCustomerId(id);
 			customer.setAddress(customer2.getAddress());
 			customer.setCart(customer2.getCart());
-			return repo.save(customer);
+			List<CustomerOrder> orders = customer.getOrders();
+			if(orders.isEmpty()) {
+				customer.setOrders(customer2.getOrders());
+			}
+				return repo.save(customer);
+			
 		}
 	}
 	
@@ -82,4 +89,5 @@ public class CustomerDao {
 			return repo.save(customer);
 		}
 	}
+
 }

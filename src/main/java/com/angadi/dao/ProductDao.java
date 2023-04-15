@@ -30,28 +30,8 @@ public class ProductDao {
 	}
 	
 	public Product updateProduct(Product product) {
-//		Optional<Product> optional = repo.findById(id);
-//		if(optional.isEmpty()) {
-//			return null;
-//		}else {
-//			Product product = optional.get();
-////			product.setProductId(id);
-////			product.setProductName(productDto.getProductName());
-////			product.setProductDescription(productDto.getProductDescription());
-////			product.setProductPrice(productDto.getProductPrice());
-////			product.setStockQuantity(productDto.getStockQuantity());
-////			product.setPrimecategory(productDto.getPrimecategory());
-//			
-//			Optional<Shop> optional2 = shopRepo.findById(productDto.getShopId());
-//			if(optional.isEmpty()) {
-//				throw new ShopNotFoundWithIdException("Failed to add product, no such shop found!");
-//			}else {
-//				Shop shop = optional2.get();
-//				shop.setAddress(optional2.get().getAddress());
-//				product.setShop(shop);
-//			}
+
 			return repo.save(product);
-//		}
 	}
 	
 	public Product deleteProduct(long id) {

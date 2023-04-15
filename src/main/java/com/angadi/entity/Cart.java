@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 public class Cart {
 
@@ -21,6 +23,7 @@ public class Cart {
 	private List<SelectedProduct> selectedProducts;
 	
 	@OneToOne(mappedBy = "cart")
+	@JsonBackReference
 	private Customer customer;
 
 	public int getCartId() {
@@ -38,6 +41,16 @@ public class Cart {
 	public void setSelectedProducts(List<SelectedProduct> selectedProducts) {
 		this.selectedProducts = selectedProducts;
 	}
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+
+
 	
 	
 }

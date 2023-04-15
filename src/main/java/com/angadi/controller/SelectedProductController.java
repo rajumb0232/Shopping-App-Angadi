@@ -6,13 +6,11 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.angadi.Configuration.ResponseStructure;
-import com.angadi.dto.ProductDto;
 import com.angadi.entity.SelectedProduct;
 import com.angadi.service.SelectedProductService;
 
@@ -25,9 +23,9 @@ public class SelectedProductController {
 	
 	
 	@PostMapping
-	public ResponseEntity<ResponseStructure<SelectedProduct>> addSelectedProduct(@RequestBody
-			ProductDto product, @RequestParam long customerId, @RequestParam int productQuantity){
-	return selectedProductService.addSelectedProduct(product,customerId,productQuantity);
+	public ResponseEntity<ResponseStructure<SelectedProduct>> addSelectedProduct(@RequestParam
+			long productId, @RequestParam long customerId, @RequestParam int productQuantity){
+	return selectedProductService.addSelectedProduct(productId,customerId,productQuantity);
 	}
 	
 	@GetMapping

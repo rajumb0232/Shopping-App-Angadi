@@ -91,7 +91,7 @@ public class ProductService {
 			product2.setProductName(productDto.getProductName());
 			product2.setProductDescription(productDto.getProductDescription());
 			product2.setProductPrice(productDto.getProductPrice());
-			product2.setStockQuantity(productDto.getStockQuantity());
+			product2.setStockQuantity(productDto.getStockQuantity());;
 			product2.setPrimecategory(productDto.getPrimecategory());
 			
 			dao.updateProduct(product2);

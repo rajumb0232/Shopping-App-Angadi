@@ -11,6 +11,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class Customer {
 
@@ -27,9 +30,11 @@ public class Customer {
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn
+	@JsonManagedReference
 	private Cart cart;
 	
 	@OneToMany(mappedBy = "customer",cascade = CascadeType.ALL)
+	@JsonIgnoreProperties("customer")
 	List<CustomerOrder> orders;
 
 	public long getCustomerId() {

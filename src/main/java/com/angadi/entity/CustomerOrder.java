@@ -12,6 +12,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.angadi.enums.OrderStatus;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "customerorders")
@@ -21,13 +22,14 @@ public class CustomerOrder {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int orderId;
 	private OrderStatus orderStatus;
-	private double tatalPrice;
+	private double totalPrice;
 	
 	@OneToMany
 	private List<SelectedProduct> selectedProducts;
-	
+
 	@ManyToOne
 	@JoinColumn
+	@JsonIgnoreProperties("orders")
 	private Customer customer;
 
 	public int getOrderId() {
@@ -46,12 +48,12 @@ public class CustomerOrder {
 		this.orderStatus = orderStatus;
 	}
 
-	public double getTatalPrice() {
-		return tatalPrice;
+	public double getTotalPrice() {
+		return totalPrice;
 	}
 
-	public void setTatalPrice(double tatalPrice) {
-		this.tatalPrice = tatalPrice;
+	public void setTotalPrice(double totalPrice) {
+		this.totalPrice = totalPrice;
 	}
 
 	public List<SelectedProduct> getSelectedProducts() {
