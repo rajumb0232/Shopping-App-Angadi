@@ -39,15 +39,12 @@ public class MerchantDao {
 		}
 	}
 
-	public Merchant deleteMerchant(long id) {
-		Optional<Merchant> optional = merchantRepo.findById(id);
-
-		if (optional.isEmpty()) {
+	public Merchant deleteMerchant(Merchant merchant) {
+		try {
+			merchantRepo.delete(merchant);
+			return merchant;
+		} catch (RuntimeException e) {
 			return null;
-		} else {
-			Merchant merchant = optional.get();
-			 merchantRepo.delete(merchant);
-			 return merchant;
 		}
 	}
 

@@ -37,10 +37,9 @@ public class CustomerDao {
 		}else {
 			Customer customer2 = optional.get();
 			customer.setCustomerId(id);
-			customer.setAddress(customer2.getAddress());
 			customer.setCart(customer2.getCart());
 			List<CustomerOrder> orders = customer.getOrders();
-			if(orders.isEmpty()) {
+			if(orders!=null) {
 				customer.setOrders(customer2.getOrders());
 			}
 				return repo.save(customer);
@@ -48,14 +47,15 @@ public class CustomerDao {
 		}
 	}
 	
-	public Customer deleteCustomer(long id) {
-		Optional<Customer> optional = repo.findById(id);
-		if(optional.isEmpty()) {
+	public Customer deleteCustomer(Customer customer) {
+		try {
+			repo.delete(customer);
+			return customer;
+		} catch (Exception e) {
 			return null;
-		}else {
-			repo.deleteById(id);
-			return optional.get();
 		}
+			
+		
 	}
 
 	public Customer getCustomerByEmail(String email) {

@@ -10,9 +10,9 @@ import com.angadi.entity.Address;
 
 public interface AddressRepo extends JpaRepository<Address, Long>{
 	
-	@Query("select a from Address a where a.area=?1 and shop is not null")
-	public Optional<List<Address>> findAllByArea(String area);
+	@Query("select a from Address a where a.area=?1 and a.shop is not null")
+	public Optional<List<Address>> getAllByArea(String area);
 	
-	@Query("select a from Address a where a.pincode=?1 and shop is not null")
-	public Iterable<Address> findAllByPincode(int pincode);
+	@Query("select a from Address a where a.pincode=?1 and exists (select s from Shop s groupby s.address having s.address != null)")
+	public Optional<List<Address>> getAllByPincode(int pincode);
 }

@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 public class Cart {
@@ -18,12 +18,12 @@ public class Cart {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int cartId;
-	
-	@OneToMany
+
+	@OneToMany(mappedBy = "cart")
+	@JsonIgnoreProperties("carts")
 	private List<SelectedProduct> selectedProducts;
 	
 	@OneToOne(mappedBy = "cart")
-	@JsonBackReference
 	private Customer customer;
 
 	public int getCartId() {

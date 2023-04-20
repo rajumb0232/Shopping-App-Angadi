@@ -1,14 +1,23 @@
 package com.angadi.entity;
 
+import java.util.List;
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "selectedproducts")
+@JsonIgnoreProperties("cart")
 public class SelectedProduct {
 
 	@Id
@@ -16,8 +25,19 @@ public class SelectedProduct {
 	private long productId;
 	private double totalPrice;
 	private int productQuantity;
-	@OneToOne
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn
 	private Product product;
+
+	@ManyToOne
+	@JoinColumn
+	@JsonIgnoreProperties("selectedProducts")
+	private Cart cart;
+	
+	@OneToMany(mappedBy = "selectedProduct", fetch = FetchType.EAGER)
+	@JsonIgnore
+	private List<CustomerOrder> customerOrders;
 	
 	public long getProductId() {
 		return productId;
@@ -50,6 +70,24 @@ public class SelectedProduct {
 	public void setProductQuantity(int productQuantity) {
 		this.productQuantity = productQuantity;
 	}
+
+	public Cart getCart() {
+		return cart;
+	}
+
+	public void setCart(Cart cart) {
+		this.cart = cart;
+	}
+
+	public List<CustomerOrder> getCustomerOrders() {
+		return customerOrders;
+	}
+
+	public void setCustomerOrders(List<CustomerOrder> customerOrders) {
+		this.customerOrders = customerOrders;
+	}
+
+
 
 	
 	

@@ -31,18 +31,17 @@ public class ProductService {
 
 	public ResponseEntity<ResponseStructure<Product>> addProduct(ProductDto productDto, int shopId, int categoryId) {
 		ResponseStructure<Product> structure = new ResponseStructure<>();
-		Product product = new Product();
-		product.setProductId(productDto.getProductId());
-		product.setProductName(productDto.getProductName());
-		product.setProductDescription(productDto.getProductDescription());
-		product.setProductPrice(productDto.getProductPrice());
-		product.setStockQuantity(productDto.getStockQuantity());
-		product.setPrimecategory(productDto.getPrimecategory());
 		
 		Shop shop =shopDao.getShop(shopId);
 		if(shop==null) {
 			throw new ShopNotFoundWithIdException("Failed to add product, no such shop found!");
 		}else {
+			Product product = new Product();
+			product.setProductId(productDto.getProductId());
+			product.setProductName(productDto.getProductName());
+			product.setProductDescription(productDto.getProductDescription());
+			product.setProductPrice(productDto.getProductPrice());
+			product.setStockQuantity(productDto.getStockQuantity());
 			List<Product> products = shop.getProducts();
 			// adding product to products list of shop
 			products.add(product);
@@ -53,6 +52,7 @@ public class ProductService {
 				product.setShop(shop);
 				// adding product to product list of category
 				category.getProducts().add(product);
+				product.setCategory(category);
 				Product product2 =  dao.addProduct(product);
 				shopDao.updateShop(shop, shop.getShopId());
 				categoryDao.updateCategory(category, category.getCategoryId());
@@ -92,7 +92,6 @@ public class ProductService {
 			product2.setProductDescription(productDto.getProductDescription());
 			product2.setProductPrice(productDto.getProductPrice());
 			product2.setStockQuantity(productDto.getStockQuantity());;
-			product2.setPrimecategory(productDto.getPrimecategory());
 			
 			dao.updateProduct(product2);
 			structure.setStatus(HttpStatus.OK.value());

@@ -43,4 +43,13 @@ public class ProductDao {
 			return optional.get();
 		}
 	}
+
+	public Product deleteProduct(Product product) {
+		try {
+			repo.delete(product);
+			return product;
+		} catch (Exception e) {
+			return null;
+		}
+	}
 }

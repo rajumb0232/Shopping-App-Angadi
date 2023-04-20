@@ -20,7 +20,6 @@ public class CategoryDao {
 	@Autowired
 	private CategoryRepo repo;
 	
-	
 	public Category addCategory(Category category) {
 		return repo.save(category);
 	}

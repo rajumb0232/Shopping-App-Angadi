@@ -1,15 +1,39 @@
 package com.angadi.Exception;
 
+import java.util.HashMap;
+import java.util.List;
+
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.angadi.Configuration.ResponseStructure;
 
 @RestControllerAdvice
 public class AngadiExceptionHandler extends ResponseEntityExceptionHandler{
+	
+	// ********************* for field validation ********************  
+	
+	
+	@Override
+	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+			HttpHeaders headers, HttpStatus status, WebRequest request) {
+		List<ObjectError> ref = ex.getAllErrors();
+		HashMap< String, String> field = new HashMap<>();
+		for(ObjectError error : ref) {
+			String message = error.getDefaultMessage();
+			String fieldName = ((FieldError) error).getField();
+			field.put(fieldName ,message);
+		}
+		return new ResponseEntity<Object>(field, HttpStatus.BAD_REQUEST);
+	}
 	
 	
 	// ******************* for entity Address ********************
@@ -77,6 +101,14 @@ public class AngadiExceptionHandler extends ResponseEntityExceptionHandler{
 		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.NOT_FOUND);
 	}
 	
+	@ExceptionHandler
+	public ResponseEntity<ResponseStructure<String>> CannotDeleteShopWithActiveOrders(CannotDeleteShopWithActiveOrdersException ex){
+		ResponseStructure<String> structure = new ResponseStructure<>();
+		structure.setStatus(HttpStatus.NOT_FOUND.value());
+		structure.setMessage(ex.getMessage());
+		structure.setData("Cannot delete a shop with CustomerOrders not in OrderStatus DELIVERED!");
+		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.NOT_FOUND);
+	}
 	
 	// ****************** for entity Category *********************
 	
@@ -155,6 +187,15 @@ public class AngadiExceptionHandler extends ResponseEntityExceptionHandler{
 		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.NOT_FOUND);
 	}
 	
+	@ExceptionHandler
+	public ResponseEntity<ResponseStructure<String>> IllegalAtemptToDeleteSelectedProduct(IllegalAtemptToDeleteSelectedProductxception ex){
+		ResponseStructure<String> structure = new ResponseStructure<>();
+		structure.setStatus(HttpStatus.NOT_FOUND.value());
+		structure.setMessage(ex.getMessage());
+		structure.setData("Unnable to delete SelectedProduct when not in Cart(order already place)!");
+		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.NOT_FOUND);
+	}
+	
 	
 	// ******************* for entity Cart ***********************
 	
@@ -187,6 +228,24 @@ public class AngadiExceptionHandler extends ResponseEntityExceptionHandler{
 		structure.setStatus(HttpStatus.NOT_FOUND.value());
 		structure.setMessage(ex.getMessage());
 		structure.setData("No orders present in the requested order Status!");
+		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.NOT_FOUND);
+	}
+	
+	@ExceptionHandler
+	public ResponseEntity<ResponseStructure<String>> orderNotFoundById(orderNotFoundByIdException ex){
+		ResponseStructure<String> structure = new ResponseStructure<>();
+		structure.setStatus(HttpStatus.NOT_FOUND.value());
+		structure.setMessage(ex.getMessage());
+		structure.setData("No orders present in the requested order Id!");
+		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.NOT_FOUND);
+	}
+
+	@ExceptionHandler
+	public ResponseEntity<ResponseStructure<String>> CannotDeleteDeliveredOrder(CannotDeleteDeliveredOrderException ex){
+		ResponseStructure<String> structure = new ResponseStructure<>();
+		structure.setStatus(HttpStatus.NOT_FOUND.value());
+		structure.setMessage(ex.getMessage());
+		structure.setData("Cannot Delete the order with OrderStatus DELIVERED!");
 		return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.NOT_FOUND);
 	}
 }

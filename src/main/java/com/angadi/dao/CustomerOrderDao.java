@@ -30,17 +30,12 @@ public class CustomerOrderDao {
 		}
 	}
 	
-	public CustomerOrder updateCustomerOrder(CustomerOrder customerOrder) {
-		return customerOrderRepo.save(customerOrder);
-	}
-	
-	public CustomerOrder deleteCustomerOrder(int orderId) {
-		Optional<CustomerOrder> optional = customerOrderRepo.findById(orderId);
-		if(optional.isEmpty()) {
+	public CustomerOrder deleteCustomerOrder(CustomerOrder customerOrder) {
+		try {
+			customerOrderRepo.delete(customerOrder);
+			return customerOrder;
+		}catch (RuntimeException e) {
 			return null;
-		}else {
-			customerOrderRepo.delete(optional.get());
-			return optional.get();
 		}
 	}
 
@@ -59,6 +54,17 @@ public class CustomerOrderDao {
 			return null;
 		}else {
 			return optional.get();
+		}
+	}
+
+	public CustomerOrder updateCustomerOrder(OrderStatus orderStatus, int orderId) {
+		Optional<CustomerOrder> optional = customerOrderRepo.findById(orderId);
+		if(optional.isEmpty()) {
+			return null;
+		}else {
+			CustomerOrder existing = optional.get();
+			existing.setOrderStatus(orderStatus);
+			return customerOrderRepo.save(existing);
 		}
 	}
 

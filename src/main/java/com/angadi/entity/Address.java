@@ -7,8 +7,11 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
+//@JsonIgnoreProperties("shop")
 public class Address {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,10 +21,13 @@ public class Address {
 	private String landmark;
 	private String city;
 	private String state;
+	
+//	@Pattern(regexp = "^[1-9]{1}[0-9]{2}\\s{0, 1}[0-9]{3}$", message = "Invalid Pincode!")
 	private int pincode;
 	
 	@OneToOne(mappedBy = "address")
-	@JsonBackReference
+	@JsonBackReference(value = "shop_address")
+//	@JsonIgnore
 	private  Shop shop;
 	
 	public long getAddressId() {

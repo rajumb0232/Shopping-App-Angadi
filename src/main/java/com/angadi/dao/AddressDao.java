@@ -1,15 +1,12 @@
 package com.angadi.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.angadi.dto.ShopDto;
 import com.angadi.entity.Address;
-import com.angadi.entity.Shop;
 import com.angadi.repository.AddressRepo;
 
 @Repository
@@ -34,39 +31,26 @@ public class AddressDao {
 	}
 	
 	// returns a list of registered area names where shops are available.
-	public List<String> getAllAreaByPincode(int pincode){
-		List<Address> addresses = (List<Address>) addressRepo.findAllByPincode(pincode);
-		
-		
-			List<String> areas = new ArrayList<>();
-			 for(Address address : addresses) {
-				 String area = address.getArea();
-				 areas.add(area);
-			 }
-			 return areas;
+	public List<Address> getAllAreaByPincode(int pincode){
+		Optional<List<Address>> optional =addressRepo.getAllByPincode(pincode);
+		if(optional.isEmpty()) {
+			return null;
+		}else {
+			return optional.get();
+		}
 		
 	}
 	
 	// returns a list of shops present in a particular area.
-	public List<ShopDto> getAllShopByArea(String area){
-		Optional<List<Address>> optional = addressRepo.findAllByArea(area);
+	public List<Address> getAllShopByArea(String area){
+		Optional<List<Address>> optional = addressRepo.getAllByArea(area);
 		
 		if(optional.isEmpty()) {
 			return null;
 		}else {
-			List<ShopDto> shops = new ArrayList<>();
-			for(Address address : optional.get()) {
-				Shop shop = address.getShop();
-				ShopDto dto = new ShopDto();
-				dto.setShopId(shop.getShopId());
-				dto.setShopName(shop.getShopName());
-				dto.setPrimeCategory(shop.getPrimeCategory());
-				dto.setShopDescription(shop.getShopDescription());
-				shops.add(dto);
+			return optional.get();
 			}
-			return shops;
 		}
-	}
 
 	public Address updateAddress(long addressId, Address address) {
 		Optional<Address> optional = addressRepo.findById(addressId);

@@ -10,5 +10,6 @@ import com.angadi.enums.PrimeCategory;
 
 public interface CategoryRepo extends JpaRepository<Category,Integer> {
 	
-	Optional<List<Category>> findAllByPrimeCategory(PrimeCategory category);
+	public Optional<List<Category>> findAllByPrimeCategory(PrimeCategory category);
+	
 }

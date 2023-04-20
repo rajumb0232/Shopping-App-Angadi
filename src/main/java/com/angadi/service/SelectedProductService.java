@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.angadi.Configuration.ResponseStructure;
 import com.angadi.Exception.CustomerNotFoundByIdException;
+import com.angadi.Exception.IllegalAtemptToDeleteSelectedProductxception;
 import com.angadi.Exception.ProductNotFoundByIdException;
 import com.angadi.Exception.SelectedProductNotFoundByIdException;
 import com.angadi.dao.CartDao;
@@ -33,42 +34,54 @@ public class SelectedProductService {
 	private ProductDao productDao;
 
 	public ResponseEntity<ResponseStructure<SelectedProduct>> addSelectedProduct(long productId, long customerId, int productQuantity) {
-		SelectedProduct selectedProduct = new SelectedProduct();
 		Product product = productDao.findProduct(productId);
+	
+		SelectedProduct selectedProduct = new SelectedProduct();
+		
 		if(product!=null) {
-
+         /**
+          * check if the product stockQuantiy if >= the quantity requested.*/
 			Customer customer = customerDao.getCustomer(customerId);
+			
 			if(customer!=null) {
-
+				selectedProduct.setProduct(product);
+				selectedProduct.setTotalPrice(productQuantity*product.getProductPrice());
+				selectedProduct.setProductQuantity(productQuantity);
+				Cart cart = customer.getCart();
 				ResponseStructure<SelectedProduct> structure = new ResponseStructure<>();
 				structure.setStatus(HttpStatus.CREATED.value());
 				
 				// check if there is a similar product already present in the cart(selectedProductList)
-				SelectedProduct existing = selectedProductDao.getselectedProductByProduct(product);
-				if(existing!=null) {
-					existing.setProductQuantity(productQuantity + existing.getProductQuantity());
-					selectedProductDao.updateSelectedProduct(existing);
-					structure.setMessage("SelectedProduct quantity updated to cart successfully.");
-					structure.setData(existing);
-					return new ResponseEntity<ResponseStructure<SelectedProduct>>(structure,HttpStatus.CREATED);
+//				SelectedProduct existing = selectedProductDao.getselectedProductByCart(cart);
+				for(SelectedProduct existing : cart.getSelectedProducts()) {
+					if(existing.getProductId() == productId) {
+						int quatity = productQuantity + existing.getProductQuantity();
+						existing.setProductQuantity(quatity);
+						existing.setTotalPrice(existing.getProduct().getProductPrice()*quatity);
+						selectedProductDao.updateSelectedProduct(existing);
+						structure.setMessage("SelectedProduct quantity updated to cart successfully.");
+						structure.setData(existing);
+						System.err.println("in for loop");
+						return new ResponseEntity<ResponseStructure<SelectedProduct>>(structure,HttpStatus.CREATED);
+					}
 				}
+			
 				
 				/* if there is no existing product in cart then add requested
 				 * product to selectedProduct list.*/
-				else {
-					selectedProduct.setProduct(product);
-					selectedProduct.setTotalPrice(productQuantity*product.getProductPrice());
-					selectedProduct.setProductQuantity(productQuantity);
+				
 					SelectedProduct selectedProduct2 = selectedProductDao.addSelectedProduct(selectedProduct);
-					Cart cart = customer.getCart();
 					List<SelectedProduct> selectedProducts = cart.getSelectedProducts();
 					selectedProducts.add(selectedProduct2);
 					cart.setSelectedProducts(selectedProducts);
 					cartDao.updateCart(cart);
+					selectedProduct2.setCart(cart);
+					selectedProductDao.updateSelectedProduct(selectedProduct2);
 					structure.setMessage("SelectedProduct added to cart successfully.");
 					structure.setData(selectedProduct2);
 					return new ResponseEntity<ResponseStructure<SelectedProduct>>(structure,HttpStatus.CREATED);
-				}
+				
+			
 			}else {
 				throw new CustomerNotFoundByIdException("Failed to Add selectedProduct to cart");
 			}	
@@ -97,35 +110,38 @@ public class SelectedProductService {
 		if(selectedProduct!=null) {
 			selectedProduct.setProductQuantity(selectedProductQuantity);
 			selectedProduct.setTotalPrice(selectedProductQuantity*selectedProduct.getProduct().getProductPrice());
-			selectedProductDao.updateSelectedProduct(selectedProduct);
+			SelectedProduct updated = selectedProductDao.updateSelectedProduct(selectedProduct);
 			ResponseStructure<SelectedProduct> structure = new ResponseStructure<>();
 			structure.setStatus(HttpStatus.OK.value());
 			structure.setMessage("SelectedProduct updated successfully.");
-			structure.setData(selectedProduct);
+			structure.setData(updated);
 			return new ResponseEntity<ResponseStructure<SelectedProduct>>(structure,HttpStatus.OK);
 		}else {
 			throw new SelectedProductNotFoundByIdException("Failed to update SelecteProduct!");
 		}
 	}
 
-	public ResponseEntity<ResponseStructure<SelectedProduct>> deleteSelectedProduct(long selectedProductId, long customerId) {
+	public ResponseEntity<ResponseStructure<SelectedProduct>> deleteSelectedProduct(long selectedProductId) {
 		SelectedProduct selectedProduct = selectedProductDao.getselectedProduct(selectedProductId);
 		if(selectedProduct!=null) {
-			Customer customer = customerDao.getCustomer(customerId);
-			if(customer!=null) {
-				Cart cart = customer.getCart();
-				List<SelectedProduct> selectedProducts = cart.getSelectedProducts();
-				selectedProducts.remove(selectedProduct);
-				cartDao.addCart(cart);
-				selectedProductDao.deleteSelectedProduct(selectedProductId);
-				ResponseStructure<SelectedProduct> structure = new ResponseStructure<>();
-				structure.setStatus(HttpStatus.OK.value());
-				structure.setMessage("Selected Product deleted successfully.");
-				structure.setData(selectedProduct);
-				return new ResponseEntity<ResponseStructure<SelectedProduct>>(structure,HttpStatus.OK);
-			}else {
-				throw new CustomerNotFoundByIdException("Failed to delete SelectedProduct!");
-			}
+				Cart cart = selectedProduct.getCart();
+				if(cart!=null) {
+//					List<SelectedProduct> selectedProducts = cart.getSelectedProducts();
+//					selectedProducts.remove(selectedProduct);
+//					cart.setSelectedProducts(selectedProducts);
+//					cartDao.addCart(cart); // used to update also.
+					selectedProduct.setProduct(null);
+					selectedProductDao.deleteSelectedProduct(selectedProduct);
+					ResponseStructure<SelectedProduct> structure = new ResponseStructure<>();
+					structure.setStatus(HttpStatus.OK.value());
+					structure.setMessage("Selected Product deleted successfully.");
+					structure.setData(selectedProduct);
+					return new ResponseEntity<ResponseStructure<SelectedProduct>>(structure,HttpStatus.OK);
+				}else {
+					throw new IllegalAtemptToDeleteSelectedProductxception("Failed to delete SelectedProduct!");
+					
+				}
+
 
 		}else {
 			throw new SelectedProductNotFoundByIdException("Failed to delete SelecteProduct!");

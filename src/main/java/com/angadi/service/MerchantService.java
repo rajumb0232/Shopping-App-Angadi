@@ -1,5 +1,7 @@
 package com.angadi.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +12,7 @@ import com.angadi.Exception.MerchantNotFoundByIdException;
 import com.angadi.dao.MerchantDao;
 import com.angadi.dto.MerchantDto;
 import com.angadi.entity.Merchant;
+import com.angadi.entity.Shop;
 
 @Service
 public class MerchantService {
@@ -19,6 +22,8 @@ public class MerchantService {
 	
 	@Autowired
 	private MerchantDto dto;
+	@Autowired
+	private shopService shopService;
 
 	public ResponseEntity<ResponseStructure<MerchantDto>> addMerchant(Merchant merchant) {
 		ResponseStructure<MerchantDto> structure = new ResponseStructure<>();
@@ -62,9 +67,19 @@ public class MerchantService {
 		}
 	}
 
-	public ResponseEntity<ResponseStructure<MerchantDto>> deleteMerchant(long id) {
+	public ResponseEntity<ResponseStructure<MerchantDto>> deleteMerchant(long merchantId) {
 		ResponseStructure<MerchantDto> structure = new ResponseStructure<>();
-		Merchant merchant = dao.deleteMerchant(id);
+		Merchant merchant = dao.getMerchant(merchantId);
+		
+		List<Shop> shops = merchant.getShops();
+		if(shops.size()>0) {
+			for(Shop shop : shops) {
+				shopService.deleteShop(shop.getShopId());
+			}
+		}
+		merchant = dao.deleteMerchant(merchant);
+		
+		
 		
 		if(merchant != null) {
 			structure.setStatus(HttpStatus.OK.value());

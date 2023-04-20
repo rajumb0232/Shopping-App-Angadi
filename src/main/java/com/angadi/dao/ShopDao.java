@@ -37,13 +37,12 @@ public class ShopDao {
 		}
 	}
 	
-	public Shop deleteShop(int id) {
-		Optional<Shop> optional = repo.findById(id);
-		if(optional.isEmpty()) {
+	public Shop deleteShop(Shop shop) {
+		try {
+			repo.delete(shop);
+			return shop;
+		} catch (RuntimeException e) {
 			return null;
-		}else {
-			repo.delete(optional.get());
-			return optional.get();
 		}
 	}
 	
